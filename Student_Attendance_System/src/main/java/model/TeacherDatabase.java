@@ -114,11 +114,12 @@ public class TeacherDatabase {
 		attendance.insertOne(atd);
 	}
 
-	public static void shortAttendance()
+	public static ArrayList shortAttendance()
 	{
-		int percent;
+		double percent;
 		int attend;
 		int total;
+		String name;
 		ArrayList al1=new ArrayList();
 		ArrayList al2=new ArrayList();
 		al1.add(Aggregates.group("$date", Accumulators.sum("total", 1)));
@@ -128,12 +129,14 @@ public class TeacherDatabase {
 			al2.add(it1.next());
 		}
 		total=al2.size();
-		System.out.println(total);
+		System.out.println("Total:"+total);
 		ArrayList al3=new ArrayList();
 		ArrayList al4=new ArrayList();
-		
+		Document d=new Document();
+		d.append("_id", 1);
 		al3.add(Aggregates.match(Filters.eq("status", "true")));
-   		al3.add(Aggregates.group("$roll", Accumulators.sum("count", 1)));
+   		al3.add(Aggregates.group("$rollno", Accumulators.sum("count", 1)));
+   		al3.add(Aggregates.sort(d));
 		Iterator it2=attendance.aggregate(al3).iterator();
 		while(it2.hasNext())
 		{
@@ -144,13 +147,67 @@ public class TeacherDatabase {
 		while(it3.hasNext())
 		{
 			Document doc=(Document)it3.next();
-			String roll=doc.getString("roll");
-			//double total=doc.getDouble("count");
+			String roll=doc.getString("_id");
+			int count=doc.getInteger("count");
+			System.out.println();
+			System.out.println("Roll no. "+roll);
+			System.out.println("Attendance: "+count);
+			percent=(count*100)/total;
+			System.out.println("Percentage: "+percent);
+			if(percent<=70)
+			{
+				FindIterable<Document> fitr2=attendance.find(Filters.eq("rollno",roll));
+				Iterator it4 = fitr2.iterator();
+				{
+					Document nameDoc=new Document();
+					nameDoc=(Document)it4.next();
+					name=nameDoc.getString("name");
+					System.out.println(it4.next());
+				}
+				Document result=new Document();
+				result.append("rollno", roll)
+					  .append("name", name)
+					  .append("percent", percent);
+				al5.add(result);
+			}
 		}
-//		 attend=al4.size();
-//		 System.out.println(attend);
-//	     percent = (attend/total)*100;
-	     
-		}
-			  
+		return al5;
 	}
+	
+	public static ArrayList viewFine()
+	{
+		ArrayList al1 = new ArrayList();
+		ArrayList al2 = new ArrayList();
+		int fine;
+		String name;
+		Document d=new Document();
+		d.append("_id", 1);
+		al1.add(Aggregates.match(Filters.eq("status", "false")));
+   		al1.add(Aggregates.group("$rollno", Accumulators.sum("count", 1)));
+   		al1.add(Aggregates.sort(d));
+   		Iterator it1=attendance.aggregate(al1).iterator();
+		while(it1.hasNext())
+		{
+			Document doc=(Document)it1.next();
+			String roll=doc.getString("_id");
+			int absent=doc.getInteger("count");
+			fine=(absent*10);
+			
+			FindIterable<Document> fitr=attendance.find(Filters.eq("rollno",roll));
+			Iterator it2 = fitr.iterator();
+			{
+				Document nameDoc=new Document();
+				nameDoc=(Document)it2.next();
+				name=nameDoc.getString("name");
+				System.out.println(it2.next());
+			}
+			Document result=new Document();
+			result.append("rollno", roll)
+				  .append("name", name)
+				  .append("fine", fine);
+			al2.add(result);
+		}
+		return al2;
+	}
+			  
+}

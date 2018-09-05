@@ -94,7 +94,7 @@ public class TeacherResource implements Serializable {
 		    	
 		    }
 		 
-		 @PUT
+		 	@PUT
 		    @Path("addAttendance")
 		    @Produces(MediaType.APPLICATION_JSON)
 		    @Consumes(MediaType.APPLICATION_JSON)
@@ -104,6 +104,28 @@ public class TeacherResource implements Serializable {
 		    	return Response.ok("{\"status\":\"0\",\"message\":\"successfuly added\"}")
 		    			.build();
 		    }
+		 	
+		 	 @GET
+			 @Path("shortAttendance")
+			 @Produces(MediaType.APPLICATION_JSON)
+			 public Response shortAttendance() {
+			    	
+			    	return Response.ok(TeacherService.shortAttendance()).build();
+			    	
+			    }
+		 	 
+		 	 @GET
+			 @Path("viewFine")
+			 @Produces(MediaType.APPLICATION_JSON)
+			 public Response viewFine() {
+			    	
+			    	return Response.ok(TeacherService.viewFine()).build();
+			    	
+			    }
+		 	
+		 	
+		 	
+		 	
 		 
 		 
 }

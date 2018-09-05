@@ -50,10 +50,23 @@ public class TeacherService {
 	}
 	 
 	 public static void addAttendance(Attendance atd)
-		{
-		    Document stdDoc=AttendanceAdapter.toDocument(atd);
-		    TeacherDatabase.addAttendance(stdDoc);	    
-		}
+	{
+		 Document stdDoc=AttendanceAdapter.toDocument(atd);
+		 TeacherDatabase.addAttendance(stdDoc);	    
+	}
+	 
+
+	 public static ArrayList shortAttendance()
+	 {
+		 ArrayList al=TeacherDatabase.shortAttendance();
+		 return al;
+	 }
+	 
+	 public static ArrayList viewFine()
+	 {
+		 ArrayList al=TeacherDatabase.viewFine();
+		 return al;
+	 }
 	
 
 }
