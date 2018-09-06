@@ -12,13 +12,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import services.StudentService;
+import services.TeacherService;
 import student.StudentDetails;
 
 @Path("student")
 public class StudentResource implements Serializable {
 	
 	@POST
-    @Path("student/login/{uname}/{password}")
+    @Path("login/{uname}/{password}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response studentLogin(@PathParam("uname") String uname, @PathParam("password") String pass)
@@ -32,15 +33,49 @@ public class StudentResource implements Serializable {
    }
 	
 	 @GET
-	 @Path("student/viewProfile/{rollno}")
+	 @Path("viewProfile/{rollno}")
 	 @Produces(MediaType.APPLICATION_JSON)
-	 public StudentDetails getdetails (@PathParam("rollno") String rollno)
+	 public Response getdetails (@PathParam("rollno") String rollno)
 	 {
-		StudentDetails std= StudentService.getDetails(rollno);
-		return std;
+		 return Response.ok(StudentService.getDetails(rollno)).build();
+	
 	 }
 	 
-	
+	 @GET
+	 @Path("monthsWithLeaves/{rollno}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response monthsWithLeaves (@PathParam("rollno") String rollno)
+	 {
 
+	    	return Response.ok(StudentService.monthsWithLeaves(rollno)).build();
+	 }
+	 
+	 @GET
+	 @Path("monthsWithMaxLeaves/{rollno}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response monthsWithMaxLeaves (@PathParam("rollno") String rollno)
+	 {
+
+	    	return Response.ok(StudentService.monthWithMaxLeaves(rollno)).build();
+	 }
+	 
+	 
+	 @GET
+	 @Path("currentMonthFine/{rollno}/{month}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response monthsWithMaxLeaves (@PathParam("rollno") String rollno,@PathParam("month") String month)
+	 {
+
+	    	return Response.ok(StudentService.currentMonthFine(rollno, month)).build();
+	 }
+	 
+	 @GET
+	 @Path("viewAttendance/{month}/{rollno}")
+	 @Produces(MediaType.APPLICATION_JSON)
+	 public Response viewAttendance (@PathParam("month") String month,@PathParam("rollno") String rollno)
+	 {
+
+	    	return Response.ok(StudentService.viewAttendance(month,rollno)).build();
+	 }
 
 }
