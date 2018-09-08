@@ -79,7 +79,12 @@ public class TeacherDatabase {
 	{
 		Bson filter = new Document("rollno", rollno);
 		DeleteResult doc=studentDetails.deleteOne(filter);
-		return doc.wasAcknowledged();
+		
+		if(doc.getDeletedCount()==1)
+			return true;
+		else
+			return false;
+		
 	}
 	
 	public static StudentDetails getByRoll(String rollno)
@@ -87,10 +92,8 @@ public class TeacherDatabase {
 		FindIterable<Document> fitr=studentDetails.find(Filters.eq("rollno",rollno));
 		StudentDetails details=null;
 		Iterator it = fitr.iterator();
-		{
-			 Document Doc=(Document)it.next();	
-			details=StudentAdapter.toObject(Doc);
-		}
+		Document Doc=(Document)it.next();	
+		details=StudentAdapter.toObject(Doc);
 		return details;
 	}
 	
@@ -158,13 +161,11 @@ public class TeacherDatabase {
 			{
 				FindIterable<Document> fitr2=attendance.find(Filters.eq("rollno",roll));
 				Iterator it4 = fitr2.iterator();
-				{
-					Document nameDoc=new Document();
-					nameDoc=(Document)it4.next();
+			
+					Document nameDoc=(Document)it4.next();
 					name=nameDoc.getString("name");
 					System.out.println(it4.next());
-				}
-				Document result=new Document();
+					Document result=new Document();
 				result.append("rollno", roll)
 					  .append("name", name)
 					  .append("percent", percent);
@@ -195,12 +196,9 @@ public class TeacherDatabase {
 			
 			FindIterable<Document> fitr=attendance.find(Filters.eq("rollno",roll));
 			Iterator it2 = fitr.iterator();
-			{
-				Document nameDoc=new Document();
-				nameDoc=(Document)it2.next();
+			Document nameDoc=(Document)it2.next();
 				name=nameDoc.getString("name");
 				System.out.println(it2.next());
-			}
 			Document result=new Document();
 			result.append("rollno", roll)
 				  .append("name", name)

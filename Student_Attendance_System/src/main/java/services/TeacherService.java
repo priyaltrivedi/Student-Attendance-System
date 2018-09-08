@@ -28,7 +28,10 @@ public class TeacherService {
 	
 	public static boolean delete(String rollno)
 	{
-		return TeacherDatabase.deleteByRoll(rollno);
+		
+		 boolean status=TeacherDatabase.deleteByRoll(rollno);
+		 System.out.println(status);
+		 return status;
 	}
 	
 	public static StudentDetails getByRoll(String rollno)

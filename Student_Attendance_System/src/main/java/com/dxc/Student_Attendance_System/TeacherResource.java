@@ -58,7 +58,7 @@ public class TeacherResource implements Serializable {
 	    public Response delete(@PathParam("rollno") String rollno)
 	    {
 	        if(TeacherService.delete(rollno))
-	        	return Response.ok("{\"status\":\"0\",\"message\":\"successfuly added\"}").build();
+	        	return Response.ok("{\"status\":\"0\",\"message\":\"successfuly deleted\"}").build();
 	        else
 	        	return Response.ok("{\"status\":\"1\",\"message\":\"Roll no. not found\"}").build();
 	    }

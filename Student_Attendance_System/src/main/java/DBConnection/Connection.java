@@ -9,6 +9,7 @@ import com.mongodb.client.MongoDatabase;
 public class Connection {
 	
 	private static final String DBNAME="attendance";
+	
 	private static final String STUDENT_LOGIN="studentLogin";
 	private static final String TEACHER_LOGIN="teacherLogin";
 	private static final String STUDENT_COLLECTION="studentDetails";
