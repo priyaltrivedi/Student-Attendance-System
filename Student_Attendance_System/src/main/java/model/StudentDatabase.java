@@ -29,6 +29,7 @@ public class StudentDatabase {
 		attendance=Connection.getAttendanceCollection();
 	}
 	
+	//Matching of Student login details
 	public static boolean studentLogin(String uname,String passwd)
 	{
 		FindIterable<Document> fitr=studentLogin.find();
@@ -51,7 +52,7 @@ public class StudentDatabase {
 	}
 	
 	
-	
+	//Get Profile of a student based on roll no 
 	public static StudentDetails getProfile(String roll)
 	{
 		FindIterable<Document> fitr=studentDetails.find(Filters.eq("rollno",roll));
@@ -67,6 +68,7 @@ public class StudentDatabase {
 
 	}
 	
+	//Get list of leaves of all months based on student's roll no 
 	public static ArrayList monthsWithLeaves(String rollno)
 	{
 		ArrayList al1=new ArrayList();
@@ -83,6 +85,7 @@ public class StudentDatabase {
 		return al2;
 	}
 	
+	//Get month with maximum leaves taken 
 	public static Document monthWithMaxLeaves(String rollno)
 	{
 		ArrayList al1=new ArrayList();
@@ -98,6 +101,7 @@ public class StudentDatabase {
 		return doc;
 	}
 	
+	//view fine of current month
 	public static int currentMonthFine(String rollno,String month)
 	{
 		ArrayList al1=new ArrayList();
@@ -117,6 +121,7 @@ public class StudentDatabase {
 		return fine;
 	}
 	
+	//view attendance on month basis
 	public static Document viewAttendance(String month,String rollno)
 	{
 		

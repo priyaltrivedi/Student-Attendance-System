@@ -17,6 +17,7 @@ public class StudentDetails {
 	private String emailId;
 	private String dob;
 	private String rollno;
+	
 	public StudentDetails() {
 		// TODO Auto-generated constructor stub
 	}
